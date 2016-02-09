@@ -23,7 +23,7 @@ accelerometer.getValues(function (err, values) {
 ```
 
 # Further reading
-- [Documentation for the MMA7660FC](http://www.farnell.com/datasheets/1670762.pdf)
+- [Technical documentation (datasheet) for the MMA7660FC](http://www.farnell.com/datasheets/1670762.pdf)
 
 # To Do for v1.0.0
 - [Implement noise reduction](http://stackoverflow.com/questions/1638864/filtering-accelerometer-data-noise).
