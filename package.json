@@ -1,0 +1,27 @@
+{
+  "name": "accelerometer-mma7660fc",
+  "version": "0.5.0",
+  "description": "Library to run the MMA7660FC accelerometer via the i2c bus.",
+  "main": "Accelerometer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/psiphi75/accelerometer-mma7660fc"
+  },
+  "keywords": [
+    "i2c",
+    "MMA7660FC",
+    "accelerometer",
+    "i2c-bus"
+  ],
+  "author": "Simon M. Werner",
+  "license": "APSL-2.0",
+  "bugs": {
+    "url": "https://github.com/psiphi75/accelerometer-mma7660fc/issues"
+  },
+  "dependencies": {
+    "i2c-bus": "^1.0.2"
+  }
+}
