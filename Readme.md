@@ -16,9 +16,10 @@ var MMA7660FC = require('accelerometer-mma7660fc');
 // The initialiser is the i2c bus number that the accelerometer is on.
 var accelerometer = new MMA7660FC(2);
 
-// Get the accelerometer values
+// Get the accelerometer values - an object with x, y, z values which represent
+// the G Force in the respective direction.
 accelerometer.getValues(function (err, values) {
-    console.log(values);      // { x: '-24.95', y: '-13.55', z: '20.36' }
+    console.log(values);      // { x: -0.047, y: -0.281, z: 0.938 }
 });
 ```
 
