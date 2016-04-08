@@ -45,15 +45,22 @@ var gForce = [0, 0.047, 0.094, 0.141, 0.188, 0.234, 0.281, 0.328, 0.375, 0.422,
 
 /**
  * Initalise the accelerometer.
- * @param {number}   i2cBusNum The i2c bus number.
+ * @param {number}  i2cBusNum The i2c bus number.
+ * @param {object}  options   The additional options.
+ *
+ * Options:
+ *   i2c: the i2c library (such that we don't have to load it twice).
  */
-function Accelerometer(i2cBusNum) {
+function Accelerometer(i2cBusNum, options) {
 
     if (typeof i2cBusNum !== 'number') {
         throw new Error('Accelerometer: i2cBusNum must be a number.');
     }
 
-    this.i2c = require('i2c-bus').openSync(i2cBusNum);
+    if (!options) {
+        options = {};
+    }
+    this.i2c = (options.i2c || require('i2c-bus')).openSync(i2cBusNum);
 
     // Wake the device
     this.i2c.writeByteSync(ACCEL_ADDRESS, ACCEL_WAKE_ADDRESS, ACCEL_WAKE_BYTE);
@@ -67,22 +74,39 @@ function Accelerometer(i2cBusNum) {
 Accelerometer.prototype.getValues = function (callback) {
     var BUF_LEN = 3;
     var buf = new Buffer(BUF_LEN);
-    this.i2c.readI2cBlock(ACCEL_ADDRESS, ACCEL_READ_ADDRESS, BUF_LEN, buf, function (err2) {
-        if (err2) {
-            callback(err2);
+
+    try {
+        this.i2c.readI2cBlock(ACCEL_ADDRESS, ACCEL_READ_ADDRESS, BUF_LEN, buf, i2cCallback);
+    } catch (ex) {
+        console.error('ERROR: Accelerometer.getValues(): error with i2c.readI2cBlock: ', ex);
+        if (callback) {
+            callback(ex);
+            callback = null;
+        }
+    }
+
+    function i2cCallback(err) {
+
+        if (!callback) {
             return;
         }
 
-        var x = buf[0] & 0x3f;
-        var y = buf[1] & 0x3f;
-        var z = buf[2] & 0x3f;
+        if (err) {
+            callback(err);
+        } else {
+            var x = buf[0] & 0x3f;
+            var y = buf[1] & 0x3f;
+            var z = buf[2] & 0x3f;
 
-        callback(null, {
-            x: gForce[x],
-            y: gForce[y],
-            z: gForce[z]
-        });
-    });
+            callback(null, {
+                x: gForce[x],
+                y: gForce[y],
+                z: gForce[z]
+            });
+        }
+        callback = null;
+
+    }
 
 };
 

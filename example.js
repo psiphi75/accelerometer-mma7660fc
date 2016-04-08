@@ -28,12 +28,6 @@ var MMA7660FC = require('accelerometer-mma7660fc');
 // The initialiser is the i2c bus number that the accelerometer is on.
 var accelerometer = new MMA7660FC(2);
 
-// Get the accelerometer values every 100 milliseconds
-setInterval(function() {
-    accelerometer.getValues(printValuesCB);
-}, 100);
-
-
 // Gets called every time we get the values.
 function printValuesCB(err, values) {
     if (err) {
@@ -42,6 +36,11 @@ function printValuesCB(err, values) {
     }
     console.log(values);
 }
+
+// Get the accelerometer values every 100 milliseconds
+setInterval(function() {
+    accelerometer.getValues(printValuesCB);
+}, 100);
 
 
 // // Get the accelerometer values

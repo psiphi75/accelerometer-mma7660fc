@@ -1,6 +1,6 @@
 {
   "name": "accelerometer-mma7660fc",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Library to run the MMA7660FC accelerometer via the i2c bus.",
   "main": "Accelerometer.js",
   "scripts": {
